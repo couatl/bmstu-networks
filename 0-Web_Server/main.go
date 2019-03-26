@@ -137,6 +137,7 @@ func ThirdRSSHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<div>%s</div>", body)
 }
 
+// Пример формы
 func FormHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<h1>Menu</h1>"+
     	"<a href=\"/\"=/>Main</a><br>"+
@@ -146,6 +147,7 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
         "</form>")
 }
 
+// Пример видео в iframe
 func MenuHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<h1>Menu</h1>"+
     	"<a href=\"/form\"=/>Form</a><br>"+
