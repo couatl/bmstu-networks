@@ -10,7 +10,7 @@
 ```go
 export GOPATH=~/go
 github.com/secsy/goftp
-go run main.go
+go run ftp-client.go -user admin -pass 12345 -host localhost
 ```
 
 Для ftp-server:
@@ -18,5 +18,5 @@ go run main.go
 export GOPATH=~/go
 go get github.com/goftp/file-driver
 go get github.com/goftp/server
-go run main.go
+go run ftp-server.go -root ./root
 ```
