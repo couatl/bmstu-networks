@@ -39,10 +39,6 @@ func HomeRouterHandler(w http.ResponseWriter, r *http.Request) {
 		rss_Items = append(rss_Items, rssObject_3.Channel.Items...)
 
 		items := rssItems(rss_Items)
-		// sort.Slice(items, func(i,j int) bool{
-  //   		return items[i].PubDate < items[j].PubDate
-		// })
-
 		sort.Sort(items)
 
 		for v := range items {
@@ -141,6 +137,7 @@ func ThirdRSSHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "<div>%s</div>", body)
 }
 
+// Пример формы
 func FormHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<h1>Menu</h1>"+
     	"<a href=\"/\"=/>Main</a><br>"+
@@ -150,6 +147,7 @@ func FormHandler(w http.ResponseWriter, r *http.Request) {
         "</form>")
 }
 
+// Пример видео в iframe
 func MenuHandler(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, "<h1>Menu</h1>"+
     	"<a href=\"/form\"=/>Form</a><br>"+
