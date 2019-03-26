@@ -39,10 +39,6 @@ func HomeRouterHandler(w http.ResponseWriter, r *http.Request) {
 		rss_Items = append(rss_Items, rssObject_3.Channel.Items...)
 
 		items := rssItems(rss_Items)
-		// sort.Slice(items, func(i,j int) bool{
-  //   		return items[i].PubDate < items[j].PubDate
-		// })
-
 		sort.Sort(items)
 
 		for v := range items {
