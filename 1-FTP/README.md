@@ -9,7 +9,7 @@
 Для ftp-client:
 ```go
 export GOPATH=~/go
-github.com/secsy/goftp
+go get github.com/secsy/goftp
 go run ftp-client.go -user admin -pass 12345 -host localhost
 ```
 
