@@ -3,10 +3,8 @@ package main
 import (
   "flag"
   "fmt"
-  // "io"
   "os"
   "bytes"
-  // "path"
 
   "golang.org/x/crypto/ssh"
 )
@@ -19,15 +17,16 @@ var (
 )
 
 func executeCmd(cmd, addr string, config *ssh.ClientConfig) string {
-	connection, err := ssh.Dial("tcp", addr, config)
-    if err != nil {
+  connection, err := ssh.Dial("tcp", addr, config)
+  if err != nil {
 	  panic(err)
-  	}
+  }
 
 	session, err := connection.NewSession()
 	if err != nil {
 	  panic(err)
-    }
+  }
+
 	defer session.Close()
 
 	fmt.Printf("Connected to: %s@%s:%d\n", *user, *host, *port)
@@ -42,7 +41,7 @@ func executeCmd(cmd, addr string, config *ssh.ClientConfig) string {
 func main() {
   flag.Parse()
 
-  config := &ssh.ClientConfig{
+  config := &ssh.ClientConfig {
     User: *user,
     Auth: []ssh.AuthMethod{
       ssh.Password(*pass),
@@ -55,7 +54,7 @@ func main() {
   addr := fmt.Sprintf("%s:%d", *host, *port)
 
   for {
-      fmt.Printf("exit for exit \n")
+    fmt.Printf("exit for exit \n")
 	  fmt.Printf("Enter your command: ")
 	  fmt.Scanf("%s %s", &cmd, &params)
 
@@ -63,11 +62,9 @@ func main() {
 	  	fmt.Printf("Exited.")
 	  	os.Exit(2)
 	  } else {
-	  	  command := fmt.Sprintf("%s %s", cmd, params)
-
-	  	  result := executeCmd(command, addr, config)
+	  	command := fmt.Sprintf("%s %s", cmd, params)
+	  	result := executeCmd(command, addr, config)
 		  fmt.Print(result)
 	  }
   }
-
 }
