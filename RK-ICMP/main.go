@@ -4,9 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/tatsushid/go-fastping"
-	"golang.org/x/net/trace"
 	"net"
-	"net/http"
 	"os"
 	"time"
 )
@@ -34,11 +32,6 @@ func ping(host string) {
 	if err != nil {
 		fmt.Println(err)
 	}
-}
-
-func traceHandler(w http.ResponseWriter, req *http.Request) {
-	tr := trace.New("mypkg.Foo", req.URL.Path)
-	defer tr.Finish()
 }
 
 func main() {
