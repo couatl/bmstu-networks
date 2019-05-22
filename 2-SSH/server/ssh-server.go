@@ -1,13 +1,13 @@
 package main
 
 import (
+	"bufio"
+	"flag"
+	"fmt"
 	"github.com/gliderlabs/ssh"
 	"golang.org/x/crypto/ssh/terminal"
 	"io"
 	"log"
-	"flag"
-	"fmt"
-	"bufio"
 )
 
 var (
@@ -21,28 +21,29 @@ func passwordHandler(ctx ssh.Context, password string) bool {
 	return ctx.User() == *user && *pass == password
 }
 
-func handleSession(s ssh.Session) {
-	io.WriteString(s, fmt.Sprintf("Hello %s\n", s.User()))
+func handleSession(sess ssh.Session) {
+	_, err := io.WriteString(sess, fmt.Sprintf("Hello %s\n", sess.User()))
 
-	text, err:= bufio.NewReader(s).ReadString('\n')
-    if err != nil  {
-        panic("GetLines: " + err.Error())
+	if err != nil {
+		panic("Write String Error: " + err.Error())
 	}
-	
+
+	text, err := bufio.NewReader(sess).ReadString('\n')
+    if err != nil  {
+      panic("GetLines: " + err.Error())
+	}
+
 	term := terminal.NewTerminal(sess, "> ")
+
     for {
-        line, err := term.ReadLine()
-        if err != nil {
-            break
-        }
-        response := router(line)
-        log.Println(line)
-        if response != "" {
-            term.Write(append([]byte(response), '\n'))
-        }
+      line, err := term.ReadLine()
+      if err != nil {
+          break
+      }
+      log.Println(line)
     }
 
-    io.WriteString(s, fmt.Sprintf("%s\n", text))   
+    io.WriteString(sess, fmt.Sprintf("%s\n", text))
 }
 
 func main() {
@@ -54,6 +55,8 @@ func main() {
 		Handler: handleSession,
 		PasswordHandler: passwordHandler,
 	}
+
+	fmt.Printf("Opening server on \n" + addr)
 
 	log.Fatal(config.ListenAndServe())
 }
