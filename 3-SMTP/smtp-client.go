@@ -135,9 +135,9 @@ func main() {
 		}
 	}
 
-	var cmd string
-
 	for {
+		var cmd string
+
 		fmt.Printf("exit for exit \n")
 		fmt.Printf("Enter anything to start making a message: ")
 		fmt.Scanf("%s", &cmd)
@@ -145,6 +145,17 @@ func main() {
 		if cmd == "exit" {
 			fmt.Printf("Exited.")
 			os.Exit(2)
+		} else if cmd == "pass" {
+			var password string
+			var key string
+			fmt.Printf("Enter key to your passphrase: ")
+			fmt.Scanf("%s", &key)
+
+			fmt.Printf("Enter your passphrase: ")
+			fmt.Scanf("%s", &password)
+
+			ciphertext := encrypt([]byte(password), key)
+			ioutil.WriteFile(*passwdFile, ciphertext, 0644)
 		} else {
 			var to string
 
