@@ -12,8 +12,8 @@ import (
 var (
 	user = flag.String("user", "admin", "Username for login")
 	pass = flag.String("pass", "12345", "Password for login")
-	host = flag.String("h", "localhost", "Host")
-	port = flag.Int("p", 22, "Port")
+	host = flag.String("h", "", "Host")
+	port = flag.Int("p", 2216, "Port")
 )
 
 func executeCmd(cmd, addr string, config *ssh.ClientConfig) string {
@@ -51,22 +51,38 @@ func main() {
 
 	var cmd string
 	var params string
+	var flags string
 	addr := fmt.Sprintf("%s:%d", *host, *port)
+
+	connection, err := ssh.Dial("tcp", addr, config)
+	if err != nil {
+		panic(err)
+	}
 
 	for {
 		fmt.Printf("exit for exit \n")
 		fmt.Printf("Enter your command: ")
-		fmt.Scanf("%s %s", &cmd, &params)
+		fmt.Scanf("%s %s %s", &cmd, &params, &flags)
 
 		if cmd == "exit" {
 			fmt.Printf("Exited.")
 			os.Exit(2)
 		} else {
-			command := fmt.Sprintf("%s %s\n", cmd, params)
+			command := fmt.Sprintf("%s %s %s\n", cmd, params, flags)
 			fmt.Printf(command)
 
-			result := executeCmd(command, addr, config)
-			fmt.Print(result)
+			session, err := connection.NewSession()
+			if err != nil {
+				panic(err)
+			}
+
+			b, err := session.CombinedOutput(command)
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Print(string(b))
+			session.Close()
 		}
 	}
 }
